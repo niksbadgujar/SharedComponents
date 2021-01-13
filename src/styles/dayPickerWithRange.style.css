@@ -1,0 +1,93 @@
+.InputFromTo
+  .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+  background-color: #2e908c !important;
+  color: #ffffff;
+  border-bottom: 2px solid #6bbfb0;
+}
+
+.DayPicker-Day--outside {
+  visibility: hidden;
+}
+
+.InputFromTo .DayPicker-Day {
+  border-radius: 0 !important;
+}
+.InputFromTo .DayPicker-Day--start {
+  /* border-top-left-radius: 50% !important;
+  border-bottom-left-radius: 50% !important; */
+  background-color: #2e908c !important;
+  color: white !important;
+}
+.InputFromTo .DayPicker-Day--end {
+  /* border-top-right-radius: 50% !important;
+  border-bottom-right-radius: 50% !important; */
+  background-color: #2e908c !important;
+  color: white !important;
+}
+.InputFromTo .DayPickerInput-Overlay {
+  width: 390px;
+  height: 24em;
+}
+
+.InputFromTo-to .DayPickerInput-Overlay {
+  margin-left: -208px;
+}
+
+.custom-daypicker-input {
+  height: 35px;
+  border: 0.5px solid lightgray;
+  position: relative;
+  padding-left: 15px;
+}
+
+.DayPicker-Day:active {
+  outline: 2px solid black !important;
+}
+
+.DayPicker-Day:focus {
+  outline: 2px solid black !important;
+}
+
+.button-section {
+  position: absolute;
+  /* position: relative; */
+  top: 20em;
+  /* z-index: 1; */
+  /* left: 26em; */
+  /* width: fit-content; */
+  left: 0em;
+  /* display: flex; */
+  width: 100%;
+}
+
+.btn-clear {
+  background: #ffffff;
+  border: 1px solid black;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.btn-apply {
+  background: #2e908c;
+  color: #ffffff;
+  border: 1px solid #2e908c;
+  cursor: pointer;
+  margin-left: 5%;
+  width: 25%;
+  padding: 4px;
+}
+
+.DayPicker {
+  width: 100%;
+}
+
+.DayPicker-Month {
+  margin-top: 3em !important;
+}
+
+.heading-section {
+  position: absolute;
+  top: 0px;
+  left: 100px;
+  margin-top: 11px;
+}

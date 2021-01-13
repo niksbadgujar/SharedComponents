@@ -1,0 +1,35 @@
+.DayPicker-Footer {
+  width: fit-content;
+  float: right;
+  border: 1px solid black;
+  margin: 5px;
+  padding: 5px;
+}
+
+.custom-daypicker-input {
+  height: 35px;
+  border: 0.5px solid lightgray;
+  position: relative;
+  padding-left: 15px;
+}
+
+.DayPicker-Day:active {
+  outline: 2px solid black !important;
+}
+
+.DayPicker-Day:focus {
+  outline: 2px solid black !important;
+  
+}
+
+.calendar-section {
+	position: relative;
+	display: inline;
+	right: 28px;
+	top: 6px;
+	cursor: pointer;
+}
+
+.DayPicker-Day--disabled {
+  font-weight: normal !important;
+}
