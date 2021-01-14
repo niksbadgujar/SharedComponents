@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <>
       <Navbar dark expand="md">
-        <div className="container">
+        <div className="container" style={{ paddingLeft: "0px", paddingRight: '0px' }}>
           <Nav navbar>
             <NavItem>
               <NavLink className="nav-link" to="/dayPickerInput">
