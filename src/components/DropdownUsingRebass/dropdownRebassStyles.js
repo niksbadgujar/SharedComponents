@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Box, Flex } from "rebass";
+import { Box, Flex, Text } from "rebass";
 
 export const StyledRow = styled(Flex)`
   color: black;
@@ -10,6 +10,7 @@ export const StyledCol = styled(Box)`
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  text-align: left;
 `;
 
 export const StyledHeaderText = styled.text`
@@ -21,7 +22,6 @@ export const StyledHeaderText = styled.text`
 
 export const StyledText = styled.text`
   overflow-wrap: break-word !important;
-  text-align: left;
   font-size: 14px;
 `;
 
@@ -31,9 +31,8 @@ export const StyledLeftTextSection = styled.div`
 `;
 
 export const StyledAccordionLeftText = styled.div`
-  width: 30%;
-  margin-left: 1%;
-  margin-right: 1%;
+  width: 20%;
+  margin-left: 5%;
 `;
 
 export const StyledRightTextSection = styled.div`
@@ -87,7 +86,7 @@ export const customStyles = {
     boxShadow: state.isFocused
       ? "0 0 0 2px black !important"
       : "0 0 0 1px white !important",
-    borderRadius: state.isFocused ? "3px" : "0px",
+    borderRadius: state.isFocused ? "1px" : "0px",
   }),
   valueContainer: (providedStyles) => ({
     ...providedStyles,
@@ -112,7 +111,6 @@ export const customStyles = {
   }),
   option: (providedStyles, state) => ({
     ...providedStyles,
-    // outline: state.isFoused ? "1px soild black !important" : "none",
   }),
   indicatorSeparator: (providedStyles) => ({
     ...providedStyles,
@@ -120,3 +118,15 @@ export const customStyles = {
     height: "39px",
   }),
 };
+
+export const StyledBalanceContainer = styled.div`
+  margin-top: 10px;
+`;
+
+export const StyledBalanceText = styled.text`
+  font-size: 14px;
+`;
+
+export const StyledBalanceAmount = styled.text`
+  font-size: 16px;
+`;

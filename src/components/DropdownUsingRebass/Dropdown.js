@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Select, { components } from "react-select";
-import { Box, Flex } from "rebass";
+import { Box, Button, Flex, Text } from "rebass";
 import { optionsArray } from "./mockData";
 import {
   StyledAccordionLeftText,
@@ -21,6 +21,9 @@ import {
   StyledText,
   StyledTickIconSection,
   customStyles,
+  StyledBalanceContainer,
+  StyledBalanceText,
+  StyledBalanceAmount,
 } from "./dropdownRebassStyles";
 
 const CustomOptions = React.memo(({ children, ...props }) => {
@@ -32,6 +35,8 @@ const CustomOptions = React.memo(({ children, ...props }) => {
       accountNumber,
       accountType,
       accountHolderType,
+      balance,
+      balanceText,
     } = {},
     isSelected,
     selectProps: {
@@ -40,7 +45,7 @@ const CustomOptions = React.memo(({ children, ...props }) => {
     } = {},
   } = props;
 
-  console.log("props - ", props);
+  // console.log("props - ", props);
   const [showAccordion, setShowAccordion] = useState(false);
 
   const StyledOption = styled(components.Option)`
@@ -67,17 +72,22 @@ const CustomOptions = React.memo(({ children, ...props }) => {
       accountNumber,
       accountType,
       accountHolderType,
+      balance,
+      balanceText,
     };
     accordionClick(selectedObj);
   };
 
   return (
     <>
-      <StyledOptionsContainer>
+      <StyledOptionsContainer tabIndex={2}>
         <StyledOption {...props}>
           <StyledOptionRow onClick={handleRowClick}>
             <StyledLeftTextSection>
-              {sortCode} {accountNumber}
+              {sortCode !== undefined
+                ? sortCode.replace(/(\d{2})(\d{2})(\d{2})/, "$1-$2-$3")
+                : ""}{" "}
+              {accountNumber}
             </StyledLeftTextSection>
 
             <StyledRightTextSection>
@@ -101,7 +111,10 @@ const CustomOptions = React.memo(({ children, ...props }) => {
 
               <StyledAccordionRow onClick={passAccordionData}>
                 <StyledAccordionLeftText>
-                  {sortCode} {accountNumber}
+                  {sortCode !== undefined
+                    ? sortCode.replace(/(\d{2})(\d{2})(\d{2})/, "$1-$2-$3")
+                    : ""}{" "}
+                  {accountNumber}
                 </StyledAccordionLeftText>
 
                 <StyledRightTextSection>
@@ -122,12 +135,15 @@ const formatOptionLabel = (props) => {
   const { accountType, accountHolderName, accountNumber, sortCode } = newProps;
 
   return (
-    <StyledRow>
+    <StyledRow tabIndex={"1"}>
       <StyledCol>
         <StyledRow>
           <StyledCol>
             <StyledHeaderText>
-              {sortCode} {accountNumber}
+              {sortCode !== undefined
+                ? sortCode.replace(/(\d{2})(\d{2})(\d{2})/, "$1-$2-$3")
+                : ""}{" "}
+              {accountNumber}
             </StyledHeaderText>
           </StyledCol>
         </StyledRow>
@@ -163,6 +179,8 @@ const Dropdown = React.memo((props) => {
       accountType: obj.accountType,
       fullName: obj.fullName,
       accountHolderType: obj.accountHolderType,
+      balance: obj.balance,
+      balanceText: obj.balanceText,
     }));
     setSelectedAccount(modifiedAccountsArray[0]);
     setOptions(modifiedAccountsArray);
@@ -198,44 +216,105 @@ const Dropdown = React.memo((props) => {
       accountHolderName,
       accountNumber,
       sortCode,
+      balance,
+      balanceText,
     } = selectedObj;
     const selectedAccountObj = {
       accountType,
       accountHolderName,
       accountNumber,
       sortCode,
+      balance,
+      balanceText,
     };
     setSelectedAccount(selectedAccountObj);
   };
 
   return (
     <>
-      <Flex className="mt-5 ml-5">
-        <Box width={1 / 8}>
-          <StyledSelectContainer>
-            <StyledSelect
-              options={options}
-              components={{ Option: CustomOptions }}
-              formatOptionLabel={formatOptionLabel}
-              styles={customStyles}
-              defaultValue={{
-                sortCode,
-                accountNumber,
-                accountHolderName,
-                accountType,
-              }}
-              // onChange={(selectedAccount) => handleSelect(selectedAccount)}
-              value={selectedAccount}
-              closeMenuOnSelect={false}
-              isSearchable={false}
-              accordionClick={handleAccordionClick}
-              // menuIsOpen
-            />
-          </StyledSelectContainer>
-        </Box>
-      </Flex>
       <Flex>
-        <Box width={1 / 6}>This is Using Rebass</Box>
+        <Flex
+          className="mt-5 ml-5"
+          sx={{
+            width: "70%",
+            justifyContent: "space-between",
+          }}
+        >
+          <Box sx={{ width: "26%" }}>
+            <StyledSelectContainer>
+              <StyledSelect
+                options={options}
+                components={{ Option: CustomOptions }}
+                formatOptionLabel={formatOptionLabel}
+                styles={customStyles}
+                defaultValue={{
+                  sortCode,
+                  accountNumber,
+                  accountHolderName,
+                  accountType,
+                }}
+                // onChange={(selectedAccount) => handleSelect(selectedAccount)}
+                value={selectedAccount}
+                closeMenuOnSelect={false}
+                isSearchable={false}
+                accordionClick={handleAccordionClick}
+                // menuIsOpen
+                // isDisabled={true}
+                tabIndex={"0"}
+                tabSelectsValue
+              />
+            </StyledSelectContainer>
+          </Box>
+
+          <Box
+            sx={{
+              width: "fit-content",
+              height: "64px",
+              marginRight: "6%",
+            }}
+          >
+            <StyledBalanceContainer>
+              <StyledBalanceText>
+                {selectedAccount.balanceText}
+              </StyledBalanceText>
+              <StyledBalanceAmount>
+                {" $"}
+                {selectedAccount.balance}
+              </StyledBalanceAmount>
+            </StyledBalanceContainer>
+          </Box>
+        </Flex>
+        <Flex
+          sx={{ width: "30%", justifyContent: "space-evenly" }}
+          className="mt-5"
+        >
+          <Box>
+            <Button
+              title="Button 1"
+              sx={{
+                background: "#3d5879",
+                color: "#FFFFFF",
+                borderRadius: "0px",
+                cursor: "pointer",
+              }}
+            >
+              Button 1
+            </Button>
+          </Box>
+          <Box>
+            <Button
+              title="Button 1"
+              sx={{
+                background: "#3d5879",
+                color: "#FFFFFF",
+                borderRadius: "0px",
+                cursor: "pointer",
+              }}
+            >
+              Button 2
+            </Button>
+          </Box>
+        </Flex>
       </Flex>
     </>
   );
