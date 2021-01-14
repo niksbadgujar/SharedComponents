@@ -73,7 +73,7 @@ export const StyledAccordionRow = styled(Flex)`
 `;
 
 export const StyledSelectContainer = styled.div`
-  margin: 8px 0px;
+  margin: 0px;
   min-width: 40%;
 `;
 

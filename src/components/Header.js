@@ -46,8 +46,8 @@ const Header = () => {
             </NavItem>
 
             <NavItem>
-              <NavLink className="nav-link" to="/accordion">
-                Accordion
+              <NavLink className="nav-link" to="/single-account">
+                Single Account
               </NavLink>
             </NavItem>
 

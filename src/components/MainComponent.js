@@ -11,6 +11,7 @@ import WithRangeParent from "./DayPickerWithRange/WithRangeParent";
 import TimeZonePicker from "./TimeZonePicker/TimeZonePickerFunctional";
 import CardParent from "./CardComponent/CardParent";
 import Dropdown from "./DropdownUsingRebass/Dropdown";
+import SingleAccount from "./DropdownUsingRebass/SingleAccount";
 import { Accordion } from "./Dropdown/Accordion/Accordion";
 import DropdownParent from "./Dropdown/DropdownParent";
 
@@ -31,6 +32,7 @@ class MainComponent extends Component {
 
           <Route path="/accordion" component={Accordion} />
           <Route path="/dropdown-rebass" component={Dropdown} />
+          <Route path="/single-account" component={SingleAccount} />
 
           {/* <Route path="/dayPickerWithRangeTest" component={DatePickerWithRangeTest}  /> */}
         </Switch>
