@@ -153,4 +153,6 @@ export const StyledIndicatorContainer = styled(Box)`
   -webkit-transition: color 150ms;
   transition: color 150ms;
   box-sizing: border-box;
+  flex-direction: column;
+  justify-content: center;
 `;
