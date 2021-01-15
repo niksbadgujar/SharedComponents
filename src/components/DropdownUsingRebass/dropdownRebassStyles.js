@@ -73,7 +73,7 @@ export const StyledAccordionRow = styled(Flex)`
 `;
 
 export const StyledSelectContainer = styled.div`
-  margin: 0px;
+  margin: 8px 0px;
   min-width: 40%;
 `;
 
@@ -129,4 +129,28 @@ export const StyledBalanceText = styled.text`
 
 export const StyledBalanceAmount = styled.text`
   font-size: 16px;
+`;
+
+export const StyledIndicatorSeparator = styled.span`
+  align-self: stretch;
+  background-color: #000000;
+  margin-bottom: 8px;
+  margin-top: 8px;
+  width: 1px;
+  box-sizing: border-box;
+  height: 39px;
+`;
+
+export const StyledIndicatorsContainer = styled(Flex)``;
+
+export const StyledIndicatorContainer = styled(Box)`
+  color: hsl(0, 0%, 80%);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 8px;
+  -webkit-transition: color 150ms;
+  transition: color 150ms;
+  box-sizing: border-box;
 `;

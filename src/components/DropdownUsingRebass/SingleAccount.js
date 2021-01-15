@@ -11,7 +11,11 @@ import {
   StyledBalanceContainer,
   StyledBalanceText,
   StyledBalanceAmount,
+  StyledIndicatorSeparator,
+  StyledIndicatorsContainer,
+  StyledIndicatorContainer,
 } from "./dropdownRebassStyles";
+import DownArrowSVG from "./DownArrowSVG";
 
 const SingleAccount = React.memo((props) => {
   const [selectedAccount, setSelectedAccount] = useState({});
@@ -36,7 +40,12 @@ const SingleAccount = React.memo((props) => {
   };
 
   const formatOptionLabel = () => {
-    const { accountType, accountHolderName, accountNumber, sortCode } = selectedAccount;
+    const {
+      accountType,
+      accountHolderName,
+      accountNumber,
+      sortCode,
+    } = selectedAccount;
     return (
       <StyledRow>
         <StyledCol>
@@ -50,7 +59,7 @@ const SingleAccount = React.memo((props) => {
               </StyledHeaderText>
             </StyledCol>
           </StyledRow>
-  
+
           <StyledRow>
             <StyledCol>
               <StyledText>
@@ -59,6 +68,12 @@ const SingleAccount = React.memo((props) => {
             </StyledCol>
           </StyledRow>
         </StyledCol>
+        <StyledIndicatorsContainer>
+          <StyledIndicatorSeparator></StyledIndicatorSeparator>
+          <StyledIndicatorContainer>
+            <DownArrowSVG />
+          </StyledIndicatorContainer>
+        </StyledIndicatorsContainer>
       </StyledRow>
     );
   };
@@ -74,11 +89,7 @@ const SingleAccount = React.memo((props) => {
           }}
         >
           <Box sx={{ width: "26%" }}>
-            <StyledSelectContainer>
-              {
-                formatOptionLabel()
-              }
-            </StyledSelectContainer>
+            <StyledSelectContainer>{formatOptionLabel()}</StyledSelectContainer>
           </Box>
 
           <Box
