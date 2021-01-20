@@ -14,6 +14,7 @@ import Dropdown from "./DropdownUsingRebass/Dropdown";
 import SingleAccount from "./DropdownUsingRebass/SingleAccount";
 import { Accordion } from "./Dropdown/Accordion/Accordion";
 import DropdownParent from "./Dropdown/DropdownParent";
+import FlexBox from './FlexBoxDesign/FlexBox';
 
 class MainComponent extends Component {
   render() {
@@ -33,6 +34,7 @@ class MainComponent extends Component {
           <Route path="/accordion" component={Accordion} />
           <Route path="/dropdown-rebass" component={Dropdown} />
           <Route path="/single-account" component={SingleAccount} />
+          <Route path="/flex-box" component={FlexBox} />
 
           {/* <Route path="/dayPickerWithRangeTest" component={DatePickerWithRangeTest}  /> */}
         </Switch>

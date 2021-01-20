@@ -39,11 +39,11 @@ const Header = () => {
               </NavLink>
             </NavItem>
 
-            <NavItem>
+            {/* <NavItem>
               <NavLink className="nav-link" to="/dropdownComponent">
                 Dropdown
               </NavLink>
-            </NavItem>
+            </NavItem> */}
 
             <NavItem>
               <NavLink className="nav-link" to="/single-account">
@@ -57,6 +57,11 @@ const Header = () => {
               </NavLink>
             </NavItem>
 
+            <NavItem>
+              <NavLink className="nav-link" to="/flex-box">
+                Flex Box Design
+              </NavLink>
+            </NavItem>
             {/* <NavItem>
               <NavLink className="nav-link" to="/dayPickerWithRangeTest">
                 Day Picker With Range Customised
