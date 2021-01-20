@@ -1,10 +1,14 @@
-import React from 'react';
-import moment from 'moment';
-import Helmet from 'react-helmet';
-import DayPicker from 'react-day-picker';
-import { formatDate, parseDate } from 'react-day-picker/moment';
-import { dynamicDateFormatterFromDate, dynamicDateFormatterToDate } from '../../utils/commonMethods';
-import 'react-day-picker/lib/style.css';
+// @ts-nocheck
+import React from "react";
+import moment from "moment";
+import Helmet from "react-helmet";
+import DayPicker from "react-day-picker";
+import { formatDate, parseDate } from "react-day-picker/moment";
+import {
+  dynamicDateFormatterFromDate,
+  dynamicDateFormatterToDate,
+} from "../../utils/commonMethods";
+import "react-day-picker/lib/style.css";
 
 class DayPickerWithRangeTest extends React.Component {
   constructor(props) {
@@ -22,12 +26,8 @@ class DayPickerWithRangeTest extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {
-      isFromDayPickerOpen: isPrevFromDayPickerOpen,
-    } = prevState;
-    const {
-      isFromDayPickerOpen,
-    } = this.state;
+    const { isFromDayPickerOpen: isPrevFromDayPickerOpen } = prevState;
+    const { isFromDayPickerOpen } = this.state;
     if (isPrevFromDayPickerOpen !== isFromDayPickerOpen) {
       this.getFormattedDate();
     }
@@ -56,66 +56,76 @@ class DayPickerWithRangeTest extends React.Component {
     this.setState({
       isFromDayPickerOpen: true,
       isToDayPickerOpen: false,
-    })
-  }
+    });
+  };
 
   showToDayPicker = () => {
     this.setState({
       isFromDayPickerOpen: false,
       isToDayPickerOpen: true,
-    })
-  }
+    });
+  };
 
   moveFocusOnToDayPicker = (day, modifiers = {}) => {
     if (modifiers.disabled) {
-      return
+      return;
     } else {
-      this.setState({
-        isToDayPickerOpen: true,
-        isFromDayPickerOpen: false,
-        selectedFromDay: day,
-      }, () => {
-        this.toDayPickerRef.current.focus()
-      })
+      this.setState(
+        {
+          isToDayPickerOpen: true,
+          isFromDayPickerOpen: false,
+          selectedFromDay: day,
+        },
+        () => {
+          this.toDayPickerRef.current.focus();
+        }
+      );
     }
-  }
+  };
 
-  handleToDayClick = (day, modifiers = {} ) => {
+  handleToDayClick = (day, modifiers = {}) => {
     if (modifiers.disabled) {
       return;
     } else {
-      this.setState({
-        selectedToDay: day,
-      }, this.getFormattedDate);
+      this.setState(
+        {
+          selectedToDay: day,
+        },
+        this.getFormattedDate
+      );
     }
-  }
+  };
 
   getFormattedDate = () => {
     const {
       selectedFromDay,
       selectedToDay,
       isFromDayPickerOpen,
-      isToDayPickerOpen
+      isToDayPickerOpen,
     } = this.state;
     const requiredFromDateParams = {
       selectedFromDay,
       isFromDayPickerOpen,
       formatDate,
-      moment
-    }
+      moment,
+    };
     const requiredToDateParams = {
       selectedToDay,
       isToDayPickerOpen,
       formatDate,
-      moment
-    }
-    const dynamicFormattedFromDate = dynamicDateFormatterFromDate(requiredFromDateParams);
-    const dynamicFormattedToDate = dynamicDateFormatterToDate(requiredToDateParams);
+      moment,
+    };
+    const dynamicFormattedFromDate = dynamicDateFormatterFromDate(
+      requiredFromDateParams
+    );
+    const dynamicFormattedToDate = dynamicDateFormatterToDate(
+      requiredToDateParams
+    );
     this.setState({
       formattedFromDate: dynamicFormattedFromDate,
-      formattedToDate: dynamicFormattedToDate
+      formattedToDate: dynamicFormattedToDate,
     });
-  }
+  };
 
   render() {
     const {
@@ -130,16 +140,16 @@ class DayPickerWithRangeTest extends React.Component {
     const modifiers = { start: selectedFromDay, end: selectedToDay };
     const customModifiersStyles = {
       start: {
-        background: 'green',
-        color: 'white',
-        borderRadius: '0px',
+        background: "green",
+        color: "white",
+        borderRadius: "0px",
       },
       end: {
-        background: 'green',
-        color: 'white',
-        borderRadius: '0px',
-      }
-    } 
+        background: "green",
+        color: "white",
+        borderRadius: "0px",
+      },
+    };
     return (
       <div className="container mt-3">
         <h3>Day Picker With Date Range</h3>
@@ -165,47 +175,49 @@ class DayPickerWithRangeTest extends React.Component {
           <div className="calendar-section">
             <img src="calendar.jpg" width="20px" height="25px" />
           </div>
-          {
-            isFromDayPickerOpen && (
-              <div className="outer-from-section">
-                <div className="from-section">
-                  <DayPicker
-                    placeholder="From"
-                    format="LL"
-                    formatDate={formatDate}
-                    parseDate={parseDate}
-                    selectedDays={[selectedFromDay, { selectedFromDay, selectedToDay }]}
-                    disabledDays={ {after: selectedToDay }}
-                    toMonth={selectedToDay}
-                    modifiers={modifiers}
-                    modifiersStyles={customModifiersStyles}
-                    numberOfMonths={2}
-                    onDayClick={(day) => this.moveFocusOnToDayPicker(day)}
-                  /> 
-                </div>
-              </div>
-            )
-          }
-          {
-            isToDayPickerOpen && (
-              <div className="InputFromTo-to">
+          {isFromDayPickerOpen && (
+            <div className="outer-from-section">
+              <div className="from-section">
                 <DayPicker
-                  placeholder="To"
+                  placeholder="From"
                   format="LL"
                   formatDate={formatDate}
                   parseDate={parseDate}
-                  selectedDays={[selectedFromDay, { selectedFromDay, selectedToDay }]}
-                  disabledDays={{ before: selectedFromDay }}
+                  selectedDays={[
+                    selectedFromDay,
+                    { selectedFromDay, selectedToDay },
+                  ]}
+                  disabledDays={{ after: selectedToDay }}
+                  toMonth={selectedToDay}
                   modifiers={modifiers}
                   modifiersStyles={customModifiersStyles}
-                  month={selectedFromDay}
-                  fromMonth={selectedFromDay}
                   numberOfMonths={2}
-                  onDayClick={(day) => this.handleToDayClick(day)}
+                  onDayClick={(day) => this.moveFocusOnToDayPicker(day)}
                 />
+              </div>
             </div>
-            )
-          }
+          )}
+          {isToDayPickerOpen && (
+            <div className="InputFromTo-to">
+              <DayPicker
+                placeholder="To"
+                format="LL"
+                formatDate={formatDate}
+                parseDate={parseDate}
+                selectedDays={[
+                  selectedFromDay,
+                  { selectedFromDay, selectedToDay },
+                ]}
+                disabledDays={{ before: selectedFromDay }}
+                modifiers={modifiers}
+                modifiersStyles={customModifiersStyles}
+                month={selectedFromDay}
+                fromMonth={selectedFromDay}
+                numberOfMonths={2}
+                onDayClick={(day) => this.handleToDayClick(day)}
+              />
+            </div>
+          )}
           {/* <Helmet>
             <style>
               {`

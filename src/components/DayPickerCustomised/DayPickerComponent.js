@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom";
 import DayPicker from "react-day-picker";

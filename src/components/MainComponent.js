@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { Component } from "react";
+import React, { Component, Suspense, lazy } from "react";
 import { Switch, Route } from "react-router-dom";
 import DatePickerWithRange from "./DayPickerWithRange/DayPickerWithRange";
 // import DatePickerWithRangeTest from './DayPickerWithRange/DatePickerWithRangeTest';
@@ -11,10 +11,13 @@ import WithRangeParent from "./DayPickerWithRange/WithRangeParent";
 import TimeZonePicker from "./TimeZonePicker/TimeZonePickerFunctional";
 import CardParent from "./CardComponent/CardParent";
 import Dropdown from "./DropdownUsingRebass/Dropdown";
-import SingleAccount from "./DropdownUsingRebass/SingleAccount";
-import { Accordion } from "./Dropdown/Accordion/Accordion";
 import DropdownParent from "./Dropdown/DropdownParent";
-import FlexBox from './FlexBoxDesign/FlexBox';
+import DropdownIndex from "./DropdownUsingRebass/DropdownIndex";
+import FlexBox from "./FlexBoxDesign/FlexBox";
+
+const DropdownIndexLazyLoaded = lazy(() =>
+  import("./DropdownUsingRebass/DropdownIndex")
+);
 
 class MainComponent extends Component {
   render() {
@@ -30,11 +33,14 @@ class MainComponent extends Component {
           <Route path="/timeZonePicker" component={TimeZonePicker} />
           <Route path="/cardComponent" component={CardParent} />
           <Route path="/dropdownComponent" component={DropdownParent} />
-
-          <Route path="/accordion" component={Accordion} />
-          <Route path="/dropdown-rebass" component={Dropdown} />
-          <Route path="/single-account" component={SingleAccount} />
           <Route path="/flex-box" component={FlexBox} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Route
+              path="/dropdown-rebass"
+              component={DropdownIndexLazyLoaded}
+            />
+          </Suspense>
+
 
           {/* <Route path="/dayPickerWithRangeTest" component={DatePickerWithRangeTest}  /> */}
         </Switch>

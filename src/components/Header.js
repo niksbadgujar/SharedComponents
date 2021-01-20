@@ -7,7 +7,10 @@ const Header = () => {
   return (
     <>
       <Navbar dark expand="md">
-        <div className="container" style={{ paddingLeft: "0px", paddingRight: '0px' }}>
+        <div
+          className="container"
+          style={{ paddingLeft: "0px", paddingRight: "0px" }}
+        >
           <Nav navbar>
             <NavItem>
               <NavLink className="nav-link" to="/dayPickerInput">
@@ -15,11 +18,11 @@ const Header = () => {
               </NavLink>
             </NavItem>
 
-            <NavItem>
+            {/* <NavItem>
               <NavLink className="nav-link" to="/simpleDayPicker">
                 Day Picker Customised
               </NavLink>
-            </NavItem>
+            </NavItem> */}
 
             <NavItem>
               <NavLink className="nav-link" to="/dayPickerWithRange">
@@ -39,15 +42,9 @@ const Header = () => {
               </NavLink>
             </NavItem>
 
-            {/* <NavItem>
+            <NavItem>
               <NavLink className="nav-link" to="/dropdownComponent">
                 Dropdown
-              </NavLink>
-            </NavItem> */}
-
-            <NavItem>
-              <NavLink className="nav-link" to="/single-account">
-                Single Account
               </NavLink>
             </NavItem>
 
@@ -62,6 +59,7 @@ const Header = () => {
                 Flex Box Design
               </NavLink>
             </NavItem>
+
             {/* <NavItem>
               <NavLink className="nav-link" to="/dayPickerWithRangeTest">
                 Day Picker With Range Customised

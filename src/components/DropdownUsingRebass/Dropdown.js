@@ -3,28 +3,19 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Select, { components } from "react-select";
 import { Box, Button, Flex, Text } from "rebass";
-import { optionsArray } from "./mockData";
+import SingleAccount from "./SingleAccount";
 import {
-  StyledAccordionLeftText,
-  StyledOptionsContainer,
-  StyledAccordionRow,
-  StyledArea,
   StyledArrowImg,
-  StyledArrowSection,
-  StyledCol,
+  StyledCol, // keep
   StyledHeaderText,
   StyledImage,
-  StyledLeftTextSection,
-  StyledRightTextSection,
-  StyledRow,
-  StyledSelectContainer,
   StyledText,
-  StyledTickIconSection,
   customStyles,
-  StyledBalanceContainer,
-  StyledBalanceText,
   StyledBalanceAmount,
+  StyledSmallText,
+  StyledDRText,
 } from "./dropdownRebassStyles";
+import { formatAmount, formatSortCode } from "./Utils/commonMethods";
 
 const CustomOptions = React.memo(({ children, ...props }) => {
   const {
@@ -45,7 +36,6 @@ const CustomOptions = React.memo(({ children, ...props }) => {
     } = {},
   } = props;
 
-  // console.log("props - ", props);
   const [showAccordion, setShowAccordion] = useState(false);
 
   const StyledOption = styled(components.Option)`
@@ -58,7 +48,7 @@ const CustomOptions = React.memo(({ children, ...props }) => {
     setShowAccordion(!showAccordion);
   };
 
-  const StyledOptionRow = styled(Flex)`
+  const StyledOptionFlex = styled(Flex)`
     padding-bottom: 0.9%;
     border-bottom: ${showAccordion ? "1px solid #cac4c4" : "none"};
     cursor: pointer;
@@ -80,51 +70,56 @@ const CustomOptions = React.memo(({ children, ...props }) => {
 
   return (
     <>
-      <StyledOptionsContainer tabIndex={2}>
+      <Flex tabIndex={2}>
         <StyledOption {...props}>
-          <StyledOptionRow onClick={handleRowClick}>
-            <StyledLeftTextSection>
-              {sortCode !== undefined
-                ? sortCode.replace(/(\d{2})(\d{2})(\d{2})/, "$1-$2-$3")
-                : ""}{" "}
+          <StyledOptionFlex onClick={handleRowClick}>
+            <Box className="col-md-3">
+              {formatSortCode(sortCode)} {"  "}
               {accountNumber}
-            </StyledLeftTextSection>
+            </Box>
 
-            <StyledRightTextSection>
+            <Box className="type-holder">
               {accountType} . {accountHolderName}
-            </StyledRightTextSection>
+            </Box>
 
             {isSelected && accountNumber === defaultAccountNumber && (
-              <StyledTickIconSection>
+              <Box sx={{ width: "5%" }}>
                 <StyledImage src="green-tick.png" />
-              </StyledTickIconSection>
+              </Box>
             )}
-          </StyledOptionRow>
+          </StyledOptionFlex>
 
           {/* ********************************** Accordion Section ***********************************/}
-
           {showAccordion && (
-            <StyledArea data-testid="accordion-area">
-              <StyledArrowSection>
+            <Flex
+              data-testid="accordion-area"
+              sx={{ padding: "5px", position: "relative" }}
+            >
+              <Box
+                sx={{ width: "10%", position: "absolute", bottom: "1.2rem" }}
+              >
                 <StyledArrowImg src="down-arrow.png" width="25px" />
-              </StyledArrowSection>
+              </Box>
 
-              <StyledAccordionRow onClick={passAccordionData}>
-                <StyledAccordionLeftText>
-                  {sortCode !== undefined
-                    ? sortCode.replace(/(\d{2})(\d{2})(\d{2})/, "$1-$2-$3")
-                    : ""}{" "}
+              <Flex
+                className="col-md-7"
+                onClick={passAccordionData}
+                sx={{ justifyContent: "space-evenly", cursor: "pointer" }}
+              >
+                <Box>
+                  {formatSortCode(sortCode)}
+                  {"  "}
                   {accountNumber}
-                </StyledAccordionLeftText>
+                </Box>
 
-                <StyledRightTextSection>
+                <Box>
                   {accountHolderType} . {fullName}
-                </StyledRightTextSection>
-              </StyledAccordionRow>
-            </StyledArea>
+                </Box>
+              </Flex>
+            </Flex>
           )}
         </StyledOption>
-      </StyledOptionsContainer>
+      </Flex>
     </>
   );
 });
@@ -135,80 +130,57 @@ const formatOptionLabel = (props) => {
   const { accountType, accountHolderName, accountNumber, sortCode } = newProps;
 
   return (
-    <StyledRow tabIndex={"1"}>
-      <StyledCol>
-        <StyledRow>
-          <StyledCol>
-            <StyledHeaderText>
-              {sortCode !== undefined
-                ? sortCode.replace(/(\d{2})(\d{2})(\d{2})/, "$1-$2-$3")
-                : ""}{" "}
-              {accountNumber}
-            </StyledHeaderText>
-          </StyledCol>
-        </StyledRow>
-
-        <StyledRow>
-          <StyledCol>
-            <StyledText>
-              {accountType} . {accountHolderName}
-            </StyledText>
-          </StyledCol>
-        </StyledRow>
-      </StyledCol>
-    </StyledRow>
+    <>
+      <Flex>
+        <Box>
+          <StyledHeaderText>
+            {formatSortCode(sortCode)}
+            {"  "}
+            {accountNumber}
+          </StyledHeaderText>
+        </Box>
+      </Flex>
+      <Flex>
+        <Box>
+          <StyledText>
+            {accountType} . {accountHolderName}
+          </StyledText>
+        </Box>
+      </Flex>
+    </>
   );
 };
 
-const Dropdown = React.memo((props) => {
-  const StyledSelect = styled(Select)``;
-
-  const [options, setOptions] = useState([]);
+const Dropdown = (props) => {
+  const { options = [], defaultAccount = {}, isSingleAccount = false } = props;
   const [selectedAccount, setSelectedAccount] = useState({});
 
   useEffect(() => {
-    getData();
-  }, []);
+    setSelectedAccount(defaultAccount);
+  }, [defaultAccount]);
 
-  const getData = () => {
-    const accounts = optionsArray;
-    const modifiedAccountsArray = accounts.map((obj) => ({
-      sortCode: obj.sortCode,
-      accountHolderName: obj.accountHolderName,
-      accountNumber: obj.accountNumber,
-      accountType: obj.accountType,
-      fullName: obj.fullName,
-      accountHolderType: obj.accountHolderType,
-      balance: obj.balance,
-      balanceText: obj.balanceText,
-    }));
-    setSelectedAccount(modifiedAccountsArray[0]);
-    setOptions(modifiedAccountsArray);
-  };
+  // const handleSelect = (selectedAccount) => {
+  //   const {
+  //     accountType,
+  //     accountHolderName,
+  //     accountNumber,
+  //     sortCode,
+  //   } = selectedAccount;
+  //   const selectedAccountObj = {
+  //     accountType,
+  //     accountHolderName,
+  //     accountNumber,
+  //     sortCode,
+  //   };
+  //   setSelectedAccount(selectedAccountObj);
+  // };
 
-  const handleSelect = (selectedAccount) => {
-    const {
-      accountType,
-      accountHolderName,
-      accountNumber,
-      sortCode,
-    } = selectedAccount;
-    const selectedAccountObj = {
-      accountType,
-      accountHolderName,
-      accountNumber,
-      sortCode,
-    };
-    setSelectedAccount(selectedAccountObj);
-  };
-
-  const defaultValue = options[0] || {};
   const {
     sortCode,
     accountHolderName,
     accountNumber,
     accountType,
-  } = defaultValue;
+  } = selectedAccount;
 
   const handleAccordionClick = (selectedObj) => {
     const {
@@ -232,17 +204,20 @@ const Dropdown = React.memo((props) => {
 
   return (
     <>
-      <Flex>
-        <Flex
-          className="mt-5 ml-5"
-          sx={{
-            width: "70%",
-            justifyContent: "space-between",
-          }}
-        >
-          <Box sx={{ width: "26%" }}>
-            <StyledSelectContainer>
-              <StyledSelect
+      <Flex
+        className="mt-1 ml-5 col-md-8"
+        sx={{
+          flexGrow: "3",
+          justifyContent: "space-between",
+          alignItems: `${isSingleAccount ? "center" : "baseline"}`,
+        }}
+      >
+        {isSingleAccount ? (
+          <SingleAccount options={options} />
+        ) : (
+          <>
+            <Box className="col-md-3">
+              <Select
                 options={options}
                 components={{ Option: CustomOptions }}
                 formatOptionLabel={formatOptionLabel}
@@ -263,61 +238,26 @@ const Dropdown = React.memo((props) => {
                 tabIndex={"0"}
                 tabSelectsValue
               />
-            </StyledSelectContainer>
-          </Box>
+            </Box>
 
-          <Box
-            sx={{
-              width: "fit-content",
-              height: "64px",
-              marginRight: "6%",
-            }}
-          >
-            <StyledBalanceContainer>
-              <StyledBalanceText>
-                {selectedAccount.balanceText}
-              </StyledBalanceText>
-              <StyledBalanceAmount>
-                {" $"}
-                {selectedAccount.balance}
-              </StyledBalanceAmount>
-            </StyledBalanceContainer>
-          </Box>
-        </Flex>
-        <Flex
-          sx={{ width: "30%", justifyContent: "space-evenly" }}
-          className="mt-5"
-        >
-          <Box>
-            <Button
-              title="Button 1"
-              sx={{
-                background: "#3d5879",
-                color: "#FFFFFF",
-                borderRadius: "0px",
-                cursor: "pointer",
-              }}
-            >
-              Button 1
-            </Button>
-          </Box>
-          <Box>
-            <Button
-              title="Button 1"
-              sx={{
-                background: "#3d5879",
-                color: "#FFFFFF",
-                borderRadius: "0px",
-                cursor: "pointer",
-              }}
-            >
-              Button 2
-            </Button>
-          </Box>
-        </Flex>
+            <Box>
+              <Flex className="amount-section" alignItems="center">
+                <StyledSmallText>{selectedAccount.balanceText}</StyledSmallText>
+                <StyledBalanceAmount>
+                  {formatAmount(selectedAccount.balance)}
+                </StyledBalanceAmount>
+                {selectedAccount.balance < 0 ? (
+                  <StyledDRText>{"DR"}</StyledDRText>
+                ) : (
+                  ""
+                )}
+              </Flex>
+            </Box>
+          </>
+        )}
       </Flex>
     </>
   );
-});
+};
 
 export default Dropdown;
