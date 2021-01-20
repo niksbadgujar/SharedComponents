@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React from "react";
 import { Box, Flex } from "rebass";
+import { StyledSmallText } from "./dropdownRebassStyles";
 import {
   StyledHeaderText,
   StyledText,
@@ -11,7 +12,10 @@ import {
 import { formatAmount, formatSortCode } from "./Utils/commonMethods";
 
 const SingleAccount = (props) => {
-  const { options = [], options: [{ balanceText, balance }] = [0] } = props;
+  const {
+    options = [],
+    options: [{ balanceText = "", balance = "" }] = [0],
+  } = props;
 
   const formatOptionLabel = () => {
     const {
@@ -24,7 +28,7 @@ const SingleAccount = (props) => {
       <>
         <Flex>
           <Box>
-            <StyledHeaderText>
+            <StyledHeaderText id="header-text">
               {formatSortCode(sortCode)}
               {"  "}
               {accountNumber}
@@ -52,12 +56,12 @@ const SingleAccount = (props) => {
 
       <Box>
         <div>
-          <Flex className="amount-section">
-            <StyledBalanceAmount>
-              <StyledBalanceText>{balanceText}</StyledBalanceText>
+          <Flex className="amount-section" alignItems="center">
+            <StyledSmallText>{balanceText}</StyledSmallText>
+            <StyledBalanceAmount id="amount-text">
               {formatAmount(balance)}
-              {balance < 0 ? <StyledDRText>{"DR"}</StyledDRText> : ""}
             </StyledBalanceAmount>
+            {balance < 0 ? <StyledDRText>{"DR"}</StyledDRText> : ""}
           </Flex>
         </div>
       </Box>
