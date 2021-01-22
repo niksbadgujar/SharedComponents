@@ -41,7 +41,6 @@ class MainComponent extends Component {
             />
           </Suspense>
 
-
           {/* <Route path="/dayPickerWithRangeTest" component={DatePickerWithRangeTest}  /> */}
         </Switch>
       </>

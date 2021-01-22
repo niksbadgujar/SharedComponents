@@ -12,10 +12,11 @@ const DropdownHeader = ({ children }) => {
         <Flex
           className="mt-1"
           sx={{
-            flexGrow: "1",
-            justifyContent: "space-between",
+            justifyContent: "space-around",
             height: "54px",
             alignItems: "center",
+            paddingLeft: "10px",
+            paddingRight: "10px",
           }}
         >
           <Box>
@@ -26,9 +27,10 @@ const DropdownHeader = ({ children }) => {
                 color: "#FFFFFF",
                 borderRadius: "0px",
                 cursor: "pointer",
+                marginRight: "5px",
               }}
             >
-              Proceed for Transaction
+              Proceed
             </Button>
           </Box>
           <Box>
@@ -39,6 +41,7 @@ const DropdownHeader = ({ children }) => {
                 color: "#FFFFFF",
                 borderRadius: "0px",
                 cursor: "pointer",
+                marginRight: "5px",
               }}
             >
               View Statement

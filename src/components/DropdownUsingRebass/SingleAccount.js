@@ -1,31 +1,18 @@
 // @ts-nocheck
 import React from "react";
 import { Box, Flex } from "rebass";
-import { StyledSmallText } from "./dropdownRebassStyles";
-import {
-  StyledHeaderText,
-  StyledText,
-  StyledBalanceText,
-  StyledBalanceAmount,
-  StyledDRText,
-} from "./singleAccountStyles";
-import { formatAmount, formatSortCode } from "./Utils/commonMethods";
+import { StyledHeaderText, StyledText } from "./singleAccountStyles";
+import { formatSortCode } from "./Utils/commonMethods";
 
-const SingleAccount = (props) => {
-  const {
-    options = [],
-    options: [{ balanceText = "", balance = "" }] = [0],
-  } = props;
-
-  const formatOptionLabel = () => {
-    const {
-      accountType,
-      accountHolderName,
-      accountNumber,
-      sortCode,
-    } = options[0];
-    return (
-      <>
+const SingleAccount = ({
+  accountType,
+  accountHolderName,
+  accountNumber,
+  sortCode,
+}) => {
+  return (
+    <>
+      <Box className="box-class" marginTop="4px">
         <Flex>
           <Box>
             <StyledHeaderText id="header-text">
@@ -42,28 +29,6 @@ const SingleAccount = (props) => {
             </StyledText>
           </Box>
         </Flex>
-      </>
-    );
-  };
-
-  return (
-    <>
-      <Box className="col-md-3">
-        <Box marginTop="4px" marginLeft="2px" minWidth="40%">
-          {formatOptionLabel()}
-        </Box>
-      </Box>
-
-      <Box>
-        <div>
-          <Flex className="amount-section" alignItems="center">
-            <StyledSmallText>{balanceText}</StyledSmallText>
-            <StyledBalanceAmount id="amount-text">
-              {formatAmount(balance)}
-            </StyledBalanceAmount>
-            {balance < 0 ? <StyledDRText>{"DR"}</StyledDRText> : ""}
-          </Flex>
-        </div>
       </Box>
     </>
   );

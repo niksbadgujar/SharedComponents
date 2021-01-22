@@ -2,22 +2,17 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Select, { components } from "react-select";
-import { Box, Button, Flex, Text } from "rebass";
+import { Box, Flex } from "rebass";
 import SingleAccount from "./SingleAccount";
 import {
   StyledArrowImg,
   StyledCol, // keep
-  StyledHeaderText,
   StyledImage,
-  StyledText,
   customStyles,
-  StyledBalanceAmount,
-  StyledSmallText,
-  StyledDRText,
 } from "./dropdownRebassStyles";
-import { formatAmount, formatSortCode } from "./Utils/commonMethods";
+import { formatSortCode } from "./Utils/commonMethods";
 
-const CustomOptions = React.memo(({ children, ...props }) => {
+const CustomOptions = ({ children, ...props }) => {
   const {
     data: {
       sortCode,
@@ -122,41 +117,31 @@ const CustomOptions = React.memo(({ children, ...props }) => {
       </Flex>
     </>
   );
-});
+};
 
 const formatOptionLabel = (props) => {
-  const { ...rest } = props.innerProps;
-  const newProps = Object.assign(props, { innerProps: rest });
-  const { accountType, accountHolderName, accountNumber, sortCode } = newProps;
-
+  const { accountType, accountHolderName, accountNumber, sortCode } = props;
   return (
     <>
-      <Flex>
-        <Box>
-          <StyledHeaderText>
-            {formatSortCode(sortCode)}
-            {"  "}
-            {accountNumber}
-          </StyledHeaderText>
-        </Box>
-      </Flex>
-      <Flex>
-        <Box>
-          <StyledText>
-            {accountType} . {accountHolderName}
-          </StyledText>
-        </Box>
-      </Flex>
+      <SingleAccount
+        accountType={accountType}
+        accountHolderName={accountHolderName}
+        accountNumber={accountNumber}
+        sortCode={sortCode}
+        isSingleAccount={false}
+      />
     </>
   );
 };
 
 const Dropdown = (props) => {
-  const { options = [], defaultAccount = {}, isSingleAccount = false } = props;
-  const [selectedAccount, setSelectedAccount] = useState({});
+  const { options = [], defaultAccount = {} } = props;
+  const [selectedAccount, setSelectedAccount] = useState(defaultAccount);
 
   useEffect(() => {
+    const { selectedAccount } = props;
     setSelectedAccount(defaultAccount);
+    selectedAccount(defaultAccount);
   }, [defaultAccount]);
 
   // const handleSelect = (selectedAccount) => {
@@ -183,6 +168,7 @@ const Dropdown = (props) => {
   } = selectedAccount;
 
   const handleAccordionClick = (selectedObj) => {
+    const { selectedAccount } = props;
     const {
       accountType,
       accountHolderName,
@@ -200,62 +186,33 @@ const Dropdown = (props) => {
       balanceText,
     };
     setSelectedAccount(selectedAccountObj);
+    selectedAccount(selectedAccountObj);
   };
 
   return (
     <>
-      <Flex
-        className="mt-1 ml-5 col-md-8"
-        sx={{
-          flexGrow: "3",
-          justifyContent: "space-between",
-          alignItems: `${isSingleAccount ? "center" : "baseline"}`,
+      <Select
+        id="select"
+        className="select"
+        options={options}
+        components={{ Option: CustomOptions }}
+        formatOptionLabel={formatOptionLabel}
+        styles={customStyles}
+        defaultValue={{
+          sortCode,
+          accountNumber,
+          accountHolderName,
+          accountType,
         }}
-      >
-        {isSingleAccount ? (
-          <SingleAccount options={options} />
-        ) : (
-          <>
-            <Box className="col-md-3">
-              <Select
-                options={options}
-                components={{ Option: CustomOptions }}
-                formatOptionLabel={formatOptionLabel}
-                styles={customStyles}
-                defaultValue={{
-                  sortCode,
-                  accountNumber,
-                  accountHolderName,
-                  accountType,
-                }}
-                // onChange={(selectedAccount) => handleSelect(selectedAccount)}
-                value={selectedAccount}
-                closeMenuOnSelect={false}
-                isSearchable={false}
-                accordionClick={handleAccordionClick}
-                // menuIsOpen
-                // isDisabled={true}
-                tabIndex={"0"}
-                tabSelectsValue
-              />
-            </Box>
-
-            <Box>
-              <Flex className="amount-section" alignItems="center">
-                <StyledSmallText>{selectedAccount.balanceText}</StyledSmallText>
-                <StyledBalanceAmount>
-                  {formatAmount(selectedAccount.balance)}
-                </StyledBalanceAmount>
-                {selectedAccount.balance < 0 ? (
-                  <StyledDRText>{"DR"}</StyledDRText>
-                ) : (
-                  ""
-                )}
-              </Flex>
-            </Box>
-          </>
-        )}
-      </Flex>
+        // onChange={(selectedAccount) => handleSelect(selectedAccount)}
+        value={selectedAccount}
+        closeMenuOnSelect={false}
+        isSearchable={false}
+        accordionClick={handleAccordionClick}
+        // menuIsOpen
+        tabIndex={"0"}
+        tabSelectsValue
+      />
     </>
   );
 };
